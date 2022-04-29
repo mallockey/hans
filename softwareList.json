@@ -1,0 +1,18 @@
+[
+  {
+    "reportDisplayName": "MySQL",
+    "version": null,
+    "brewName": "mysql",
+    "preInstallCommands": [],
+    "installCommands": ["brew install mysql"],
+    "postInstallCommands": []
+  },
+  {
+    "reportDisplayName": "Steam",
+    "version": null,
+    "brewName": "steam",
+    "preInstallCommands": [],
+    "installCommands": ["brew install --cask steam"],
+    "postInstallCommands": []
+  }
+]
