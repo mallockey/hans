@@ -1,5 +1,13 @@
 #!/usr/bin/env zsh
 
+NODE_INSTALLED=$(node --version)
+
+if [[ "$NODE_INSTALLED" != *"$command not found"* ]]; then
+    npm install
+    npm run start
+    exit
+fi
+
 # Create zsh profile if it doesnt exist
 if [ ! -f "$HOME/.zshrc" ]; then
     touch $HOME/.zshrc
