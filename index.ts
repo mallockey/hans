@@ -1,5 +1,6 @@
-import softwareToInstall from "./softwareList.json";
-import commandsToRun from "./commandsToRun.json";
+import softwareToInstall from "./inputFiles/softwareList.json";
+import commandsToRun from "./inputFiles/commandsToRun.json";
+
 import { SoftwareReportItem, SoftwareReportList } from "./types";
 import { checkIfInstalled, invokeCommand } from "./utils";
 
@@ -25,21 +26,10 @@ if (typeof softwareInstalledReportOutput === "string") {
 
 // Generate list of software installed by Brew
 const softwareBrewReport = invokeCommand("brew list", true) as string;
-const softwareBrewCaskReport = invokeCommand(
-  "brew list --cask",
-  true
-) as string;
 
 console.log("Generating Brew Installed Software Report...");
 for (const software of softwareToInstall) {
-  if (
-    checkIfInstalled(
-      software,
-      softwareInstalledList,
-      softwareBrewReport,
-      softwareBrewCaskReport
-    )
-  ) {
+  if (checkIfInstalled(software, softwareInstalledList, softwareBrewReport)) {
     console.log(`${software.reportDisplayName} is already installed`);
     continue;
   }
@@ -73,7 +63,7 @@ for (const software of softwareToInstall) {
   const softwareWasInstalled = invokeCommand(checkInstallCommand, true);
 
   if (typeof softwareWasInstalled === "string") {
-    if (softwareWasInstalled.includes("command not found")) {
+    if (!softwareWasInstalled) {
       console.log(`${software.reportDisplayName} was not installed`);
     } else {
       console.log(`Successfully installed ${software.reportDisplayName}`);

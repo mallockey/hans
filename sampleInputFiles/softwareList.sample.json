@@ -8,11 +8,11 @@
     "postInstallCommands": []
   },
   {
-    "reportDisplayName": "Steam",
+    "reportDisplayName": "Maven",
     "version": null,
-    "brewName": "steam",
+    "brewName": "maven",
     "preInstallCommands": [],
-    "installCommands": ["brew install --cask steam"],
+    "installCommands": ["brew install maven"],
     "postInstallCommands": []
   }
 ]

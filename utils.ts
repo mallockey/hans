@@ -17,8 +17,7 @@ export const invokeCommand = (
 export const checkIfInstalled = (
   software: SoftwareToInstall,
   softwareInstalledList: SoftwareReportItem[],
-  softwareBrewReport: string,
-  softwareBrewCaskReport: string
+  softwareBrewReport: string
 ) => {
   const foundSoftwareInReport = softwareInstalledList.find(
     (softwareReport: SoftwareReportItem) =>
@@ -33,17 +32,7 @@ export const checkIfInstalled = (
     software.replace(/\n/g, "")
   );
 
-  let softwareAlreadyInstalledBrewCask = softwareBrewCaskReport.split(/(\s)/);
-
-  softwareAlreadyInstalledBrewCask = softwareAlreadyInstalledBrewCask.map(
-    (software) => software.replace(/\n/g, "")
-  );
-
-  if (
-    softwareAlreadyInstalledBrew.includes(software.brewName) ||
-    softwareAlreadyInstalledBrewCask.includes(software.brewName)
-  )
-    return true;
+  if (softwareAlreadyInstalledBrew.includes(software.brewName)) return true;
 
   return false;
 };
