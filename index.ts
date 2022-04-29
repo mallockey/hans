@@ -38,10 +38,13 @@ for (const software of softwareToInstall) {
     invokeCommand(preInstallCommand);
   });
 
-  let isCask = false;
+  let isCask = software.installCommands.some((installCommand) =>
+    installCommand.includes("cask")
+  );
+
   software.installCommands.forEach((installCommand) => {
     console.log(`Installing ${software.reportDisplayName} `);
-    isCask = installCommand.includes("cask");
+
     if (software.version) {
       invokeCommand(`${installCommand}@${software.version}`);
     } else {
