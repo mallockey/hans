@@ -45,4 +45,4 @@ The main idea behind this script is that you'd only have to edit two files. The 
     "installCommands": ["brew install maven"],
     "postInstallCommands": []
   }
-]```
+]
