@@ -1,5 +1,13 @@
 #!/usr/bin/env zsh
 
+BREW_INSTALLED="$(which brew)"
+
+if echo $BREW_INSTALLED | grep -q "brew not found"; then
+    # Install Brew
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    source $HOME/.zshrc
+fi
+
 NODE_INSTALLED=$(node --version)
 
 if [[ "$NODE_INSTALLED" != *"$command not found"* ]]; then
@@ -13,13 +21,6 @@ if [ ! -f "$HOME/.zshrc" ]; then
     touch $HOME/.zshrc
 fi
 
-BREW_INSTALLED="$(which brew)"
-
-if echo $BREW_INSTALLED | grep -q "brew not found"; then
-    # Install Brew
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    source $HOME/.zshrc
-fi
 
 NVM_IN_PROFILE="$(grep -c "nvm" $HOME/.zshrc)"
 
