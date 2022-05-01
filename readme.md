@@ -28,7 +28,7 @@ If you receive a a permission error, you will need to change permissions on the 
 # Input Files
 
 The main idea behind this script is that you'd only have to edit two files. The `softwareList.json` file :
-```
+```json
 [
   {
     "reportDisplayName": "MySQL",
@@ -49,7 +49,7 @@ The main idea behind this script is that you'd only have to edit two files. The 
 ]
 ```
 And any pre or post commands you'd want to run after installing the software :
-```
+```json
 {
   "preCommandsToRun": ["whoami"],
   "postCommandsToRun": ["start mongo"]
