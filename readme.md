@@ -24,3 +24,25 @@ I understand there are other package managers software could be installed under,
 3. Launch terminal or iTerm and run `./main.sh`
 
 If you receive a a permission error, you will need to change permissions on the `main.sh` using `chmod`
+
+# Input Files
+
+The main idea behind this script is that you'd only have to edit two files. The formats look like this :
+```[
+  {
+    "reportDisplayName": "MySQL",
+    "version": null,
+    "brewName": "mysql",
+    "preInstallCommands": [],
+    "installCommands": ["brew install mysql"],
+    "postInstallCommands": []
+  },
+  {
+    "reportDisplayName": "Maven",
+    "version": null,
+    "brewName": "maven",
+    "preInstallCommands": [],
+    "installCommands": ["brew install maven"],
+    "postInstallCommands": []
+  }
+]```
