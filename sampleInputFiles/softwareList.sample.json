@@ -11,8 +11,6 @@
     "reportDisplayName": "Steam",
     "version": null,
     "brewName": "steam",
-    "isCask": true,
-    "preInstallCommands": [],
-    "postInstallCommands": []
+    "isCask": true
   }
 ]
