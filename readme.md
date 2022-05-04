@@ -28,27 +28,28 @@ If you receive a a permission error, you will need to change permissions on the 
 # Input Files
 
 The main idea behind this script is that you'd only have to edit two files. The `softwareList.json` file :
+
 ```json
 [
   {
     "reportDisplayName": "MySQL",
     "version": null,
     "brewName": "mysql",
-    "preInstallCommands": [],
-    "installCommands": ["brew install mysql"],
-    "postInstallCommands": []
+    "isCask": false
   },
   {
-    "reportDisplayName": "Maven",
+    "reportDisplayName": "Steam",
     "version": null,
-    "brewName": "maven",
-    "preInstallCommands": [],
-    "installCommands": ["brew install maven"],
-    "postInstallCommands": []
+    "brewName": "steam",
+    "isCask": true
   }
 ]
 ```
+
+You can all include a `preInstallCommands` key for each software for any commands you'd like to before prior to running the install.
+
 And any pre or post commands you'd want to run after installing the software :
+
 ```json
 {
   "preCommandsToRun": ["whoami"],

@@ -2,8 +2,8 @@ export interface SoftwareToInstall {
   reportDisplayName: string;
   version: number | null;
   brewName: string;
+  isCask: boolean;
   preInstallCommands?: string[];
-  installCommands: string[];
   postInstallCommands?: string[];
 }
 

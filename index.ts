@@ -1,7 +1,12 @@
+import {
+  SoftwareReportItem,
+  SoftwareReportList,
+  SoftwareToInstall,
+} from "./types";
+
 import softwareToInstall from "./inputFiles/softwareList.json";
 import commandsToRun from "./inputFiles/commandsToRun.json";
 
-import { SoftwareReportItem, SoftwareReportList } from "./types";
 import { checkIfInstalled, invokeCommand } from "./utils";
 
 // Any commands to run prior to software installation
@@ -11,6 +16,7 @@ commandsToRun.preCommandsToRun.forEach((command) => {
 
 // Generate system list of installed software
 console.log("Generating System Installed Software Report...");
+
 const softwareInstalledReportOutput = invokeCommand(
   "system_profiler SPApplicationsDataType -json",
   true
@@ -28,38 +34,32 @@ if (typeof softwareInstalledReportOutput === "string") {
 const softwareBrewReport = invokeCommand("brew list", true) as string;
 
 console.log("Generating Brew Installed Software Report...");
-for (const software of softwareToInstall) {
+
+for (const software of softwareToInstall as SoftwareToInstall[]) {
   if (checkIfInstalled(software, softwareInstalledList, softwareBrewReport)) {
     console.log(`${software.reportDisplayName} is already installed`);
     continue;
   }
 
-  software.preInstallCommands.forEach((preInstallCommand) => {
+  software?.preInstallCommands?.forEach((preInstallCommand) => {
     invokeCommand(preInstallCommand);
   });
 
-  let isCask = software.installCommands.some((installCommand) =>
-    installCommand.includes("cask")
-  );
+  console.log(`Installing ${software.reportDisplayName} `);
+  if (software.version) {
+    invokeCommand(`brew install ${software.brewName}@${software.version}`);
+  } else {
+    invokeCommand(`brew install ${software.brewName}`);
+  }
 
-  software.installCommands.forEach((installCommand) => {
-    console.log(`Installing ${software.reportDisplayName} `);
-
-    if (software.version) {
-      invokeCommand(`${installCommand}@${software.version}`);
-    } else {
-      invokeCommand(installCommand);
-    }
-  });
-
-  software.postInstallCommands.forEach((postInstallCommand) => {
+  software?.postInstallCommands?.forEach((postInstallCommand) => {
     invokeCommand(postInstallCommand);
   });
 
   // Reload to make sure we have access to any new environment variables
   invokeCommand("zsh $HOME/.zshrc");
 
-  const checkInstallCommand = isCask
+  const checkInstallCommand = software.isCask
     ? `brew ls --cask --versions ${software.brewName}`
     : `brew ls --versions ${software.brewName}`;
 

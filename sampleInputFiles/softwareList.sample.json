@@ -3,16 +3,16 @@
     "reportDisplayName": "MySQL",
     "version": null,
     "brewName": "mysql",
+    "isCask": false,
     "preInstallCommands": [],
-    "installCommands": ["brew install mysql"],
     "postInstallCommands": []
   },
   {
-    "reportDisplayName": "Maven",
+    "reportDisplayName": "Steam",
     "version": null,
-    "brewName": "maven",
+    "brewName": "steam",
+    "isCask": true,
     "preInstallCommands": [],
-    "installCommands": ["brew install maven"],
     "postInstallCommands": []
   }
 ]
