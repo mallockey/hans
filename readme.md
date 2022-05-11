@@ -40,7 +40,7 @@ If you receive a a permission error, you will need to change permissions on the 
 | preInstallCommands  | Any command to run prior to installing                                                                   | zsh command                               |
 | postInstallCommands | Any command to run after the installation                                                                | zsh command                               |
 
-And any pre or post commands you'd want to run after installing the software :
+And `commandsToRun.json` for any pre or post commands you'd want to run before/after installing the software :
 
 ```json
 {
