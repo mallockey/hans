@@ -1,6 +1,6 @@
 # Onboarding Automation
 
-These sets of scripts act as an easy way to configure a machine when working in a new environment. The `main.zsh` script is the entry point and `index.ts` will take care of installing software through Brew.
+This script is essentially a `zsh` wrapper for Node. It's main purpose is installing software through Brew but can also run any other bash commands. The `main.zsh` script is the entry point and `index.ts` will take care of installing software through Brew.
 
 ## Running the script
 
@@ -10,9 +10,9 @@ These sets of scripts act as an easy way to configure a machine when working in 
 
 If you receive a a permission error, you will need to change permissions on the `main.sh` using `chmod`
 
-# Input Files
+## Input Files
 
-The main idea behind this script is that you'd only have to edit two files. The `softwareList.json` file :
+`softwareList.json` file is used to list all the software to install :
 
 ```json
 [
@@ -31,7 +31,14 @@ The main idea behind this script is that you'd only have to edit two files. The 
 ]
 ```
 
-You can all include a `preInstallCommands` key for each software for any commands you'd like to before prior to running the install.
+| Key                 |                                                                                                          | Description                               | Possible Values / Data Type |
+| ------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------- | --------------------------- |
+| reportDisplayName   | The name of the software listed in the output of `system_profiler SPApplicationsDataType -json` command. | any string                                |
+| version             | The version of the software to install                                                                   | number (this is what's displayed on Brew) |
+| brewName            | The name of the software in Brew                                                                         | string                                    |
+| isCask              | Whether the software is cask (cask software is generally ones with GUI)                                  | boolean                                   |
+| preInstallCommands  | Any command to run prior to installing                                                                   | zsh command                               |
+| postInstallCommands | Any command to run after the installation                                                                | zsh command                               |
 
 And any pre or post commands you'd want to run after installing the software :
 
@@ -50,3 +57,7 @@ The script will check if the software you're trying to install is already instal
 2. Running the `brew ls --version $SOFTWARE_NAME`
 
 I understand there are other package managers software could be installed under, this is something else to consider.
+
+## Brew Information
+
+Checkout the software on Brew's site to get information like `version` `brewName` or `isCask`. [Steam for example](https://formulae.brew.sh/cask/steam)
