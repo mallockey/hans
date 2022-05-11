@@ -31,8 +31,8 @@ If you receive a a permission error, you will need to change permissions on the 
 ]
 ```
 
-| Key                 |                                                                                                          | Description                               | Possible Values / Data Type |
-| ------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------- | --------------------------- |
+| Key                 | Description                                                                                              | Possible Values / Data Type               |
+| ------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
 | reportDisplayName   | The name of the software listed in the output of `system_profiler SPApplicationsDataType -json` command. | any string                                |
 | version             | The version of the software to install                                                                   | number (this is what's displayed on Brew) |
 | brewName            | The name of the software in Brew                                                                         | string                                    |
