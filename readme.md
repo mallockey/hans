@@ -63,3 +63,8 @@ I understand there are other package managers software could be installed under,
 ## Brew Information
 
 Checkout the software on Brew's site to get information like `version` `brewName` or `isCask`. [Steam for example](https://formulae.brew.sh/cask/steam)
+
+
+## Windows Support
+
+Windows support has been added using PowerShell which installs software using Chocolately. Create a `packages.config` file  and an optional `commandsToRun.json` in `./windows/inputFiles`. A sample file can be found on [Chocolatelys site](https://docs.chocolatey.org/en-us/choco/commands/install#packages.config). Then run `./windows/main.ps1` in an elevated PowerShell terminal.
