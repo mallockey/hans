@@ -31,6 +31,8 @@ If you receive a a permission error, you will need to change permissions on the 
 ]
 ```
 
+### SoftwareList Key Description
+
 | Key                 | Description                                                                                              | Possible Values / Data Type               |
 | ------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
 | reportDisplayName   | The name of the software listed in the output of `system_profiler SPApplicationsDataType -json` command. | any string                                |
