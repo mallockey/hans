@@ -1,5 +1,11 @@
 $ErrorActionPreference = 'Stop'
 
+if (!(Test-Path -Path "$($PSScriptRoot)\inputFiles\packages.config")) {
+  Write-Warning 'packages.config not detected in inputFiles folder'
+  Write-Warning 'Did you forget to make the packages.config?'
+  exit
+}
+
 $ChocoCheck = choco --version
 
 if (!$ChocoCheck) {
@@ -14,11 +20,6 @@ if (!$ChocoCheck) {
   }
 }
 
-if (!(Test-Path -Path "$($PSScriptRoot)\inputFiles\packages.config")) {
-  Write-Warning 'packages.config not detected in inputFiles folder'
-  Write-Warning 'Did you forget to make the packages.config?'
-  exit
-}
 
 if (Test-Path -Path "$($PSScriptRoot)\inputFiles\commandsToRun.json") {
   $CommandsToRun = Get-Content "$($PSScriptRoot)\inputFiles\commandsToRun.json" | ConvertFrom-Json -Depth 5
