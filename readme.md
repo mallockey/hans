@@ -68,3 +68,7 @@ Checkout the software on Brew's site to get information like `version` `brewName
 ## Windows Support
 
 Windows support has been added using PowerShell which installs software using Chocolately. Create a `packages.config` file  and an optional `commandsToRun.json` in `./windows/inputFiles`. A sample file can be found on [Chocolatelys site](https://docs.chocolatey.org/en-us/choco/commands/install#packages.config). Then run `./windows/main.ps1` in an elevated PowerShell terminal.
+
+## Upcoming features
+
+Planning on turning the Mac version into just a `zsh` script and adding of common environment variables. Also will add a `githubRepos` for the script to automatically clone.
