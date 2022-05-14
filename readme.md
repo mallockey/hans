@@ -1,46 +1,36 @@
 # Onboarding Automation
 
-This script is essentially a `zsh` wrapper for Node. It's main purpose is installing software through Brew but can also run any other bash commands. The `main.zsh` script is the entry point and `index.ts` will take care of installing software through Brew.
+These sets of scripts are used to easily configure machines when working in a new environment. They use the package managers Brew and Chocolately for Mac and Windows respectively. The idea is to make a generic onboarding script that you should only need to change the `json` files in the input folder.
 
 ## Running the script
-
-1. Clone the repo
-2. Create two files in `inputFiles` folder. `commandsToRun.json` and `softwareList.json`. You can reference the shape of these files in the `sampleInputFiles` folder
-3. Launch terminal or iTerm and run `./main.sh`
+### Windows
+1. Go to the windows folder and create two files, optional: `commandsToRun.json` and `packages.config` in the `inputFiles` folder.
+2. The `packages.config` file will be used to list the software you want to install based on the Chocolately
+A sample file can be found on [Chocolatelys site](https://docs.chocolatey.org/en-us/choco/commands/install#packages.config).
+3. Run `./windows/main.ps1` in an elevated PowerShell terminal.
+### Mac
+1. Create two files in `inputFiles` folder. `commandsToRun.json` and `softwareList.json`. You can reference the shape of these files in the `sampleInputFiles` folder.
+2. List any software you want to install based on it's Brew configuration.
+3. Run `.\main.zsh` from a terminal
 
 If you receive a a permission error, you will need to change permissions on the `main.sh` using `chmod`
 
-## Input Files
+## Mac Input Files Sample
 
 `softwareList.json` file is used to list all the software to install :
 
 ```json
 [
   {
-    "reportDisplayName": "MySQL",
+    "name": "MySQL",
     "version": null,
-    "brewName": "mysql",
-    "isCask": false
   },
   {
-    "reportDisplayName": "Steam",
-    "version": null,
-    "brewName": "steam",
-    "isCask": true
+    "name": "Steam",
+    "version": 20,
   }
 ]
 ```
-
-### SoftwareList Key Description
-
-| Key                 | Description                                                                                              | Possible Values / Data Type               |
-| ------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------- |
-| reportDisplayName   | The name of the software listed in the output of `system_profiler SPApplicationsDataType -json` command. | any string                                |
-| version             | The version of the software to install                                                                   | number (this is what's displayed on Brew) |
-| brewName            | The name of the software in Brew                                                                         | string                                    |
-| isCask              | Whether the software is cask (cask software is generally ones with GUI)                                  | boolean                                   |
-| preInstallCommands  | Any command to run prior to installing                                                                   | zsh command                               |
-| postInstallCommands | Any command to run after the installation                                                                | zsh command                               |
 
 And `commandsToRun.json` for any pre or post commands you'd want to run before/after installing the software :
 
@@ -50,25 +40,11 @@ And `commandsToRun.json` for any pre or post commands you'd want to run before/a
   "postCommandsToRun": ["start mongo"]
 }
 ```
-
-## Detecting an installation
-
-The script will check if the software you're trying to install is already installed on the machine. It does this in 2 ways:
-
-1. Generating a list of software using the `system_profiler` command
-2. Running the `brew ls --version $SOFTWARE_NAME`
-
-I understand there are other package managers software could be installed under, this is something else to consider.
-
 ## Brew Information
 
 Checkout the software on Brew's site to get information like `version` `brewName` or `isCask`. [Steam for example](https://formulae.brew.sh/cask/steam)
 
-
-## Windows Support
-
-Windows support has been added using PowerShell which installs software using Chocolately. Create a `packages.config` file  and an optional `commandsToRun.json` in `./windows/inputFiles`. A sample file can be found on [Chocolatelys site](https://docs.chocolatey.org/en-us/choco/commands/install#packages.config). Then run `./windows/main.ps1` in an elevated PowerShell terminal.
-
 ## Upcoming features
 
-Planning on turning the Mac version into just a `zsh` script and adding of common environment variables. Also will add a `githubRepos` for the script to automatically clone.
+- Add automatic creation of environment variables for commonly installed software
+- Add a `gitRepos` property for the script to automatically clone

@@ -1,54 +1,60 @@
 #!/usr/bin/env zsh
 
-BREW_INSTALLED="$(which brew)"
+function checkInstalled() {
 
+    local BREW_INSTALLED="$(which $1)"
+
+    if echo $BREW_INSTALLED | grep -q "$1 not found"; then
+        echo false
+    else
+        echo true
+    fi
+
+}
+
+BREW_INSTALLED=$(checkInstalled "brew")
 if echo $BREW_INSTALLED | grep -q "brew not found"; then
-    # Install Brew
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     source $HOME/.zshrc
 fi
 
-NODE_INSTALLED=$(node --version)
-
-if [[ "$NODE_INSTALLED" != *"$command not found"* ]]; then
-    npm install
-    npm run start
-    exit
+JQ_INSTALLED=$(checkInstalled "jq")
+if [[ -z "${JQ_INSTALLED}" ]]; then
+    brew install jq
+    source $HOME/.zshrc
 fi
 
-# Create zsh profile if it doesnt exist
-if [ ! -f "$HOME/.zshrc" ]; then
-    touch $HOME/.zshrc
-fi
+jq '.preCommandsToRun[]' ./inputFiles/commandsToRun.json |
+    while read -r COMMAND; do
 
+        COMMAND_NO_QUOTES="${COMMAND%\"}"
+        COMMAND_NO_QUOTES="${COMMAND_NO_QUOTES#\"}"
 
-NVM_IN_PROFILE="$(grep -c "nvm" $HOME/.zshrc)"
+        $COMMAND_NO_QUOTES
 
-if [[ $NVM_IN_PROFILE == 0 ]]; then
+    done
 
-    NVM_INSTALLED="$(brew ls --versions nvm)"
+SOFTWARE_LIST="./inputFiles/softwareList.json"
+jq -c '.[]' <$SOFTWARE_LIST |
+    while read -r SOFTWARE; do
 
-    if [[ -z "${NVM_INSTALLED}" ]]; then
+        SOFTWARE_NAME=$(jq -r '.name' <<<"$SOFTWARE")
+        VERSION=$(jq -r '.version' <<<"$SOFTWARE")
 
-        # Install NVM
-        brew install nvm
-        if [ ! -d "$HOME/.nvm" ]; then
-            mkdir ~/.nvm
+        if [[ -z $VERSION || "$VERSION" == "null" ]]; then
+            brew install $SOFTWARE_NAME
+        else
+            brew install ${SOFTWARE_NAME}@${VERSION}
         fi
 
-        # Add NVM env variables
-        echo -e "\n" >> ~/.zshrc
-        echo "export NVM_DIR=~/.nvm" >> ~/.zshrc
-        echo 'source $(brew --prefix nvm)/nvm.sh' >> ~/.zshrc
+    done
 
-        # Reload zsh profile so we have access to NVM
-        source $HOME/.zshrc
+jq '.postCommandsToRun[]' ./inputFiles/commandsToRun.json |
+    while read -r COMMAND; do
 
-        # Install Node
-        nvm install node
+        COMMAND_NO_QUOTES="${COMMAND%\"}"
+        COMMAND_NO_QUOTES="${COMMAND_NO_QUOTES#\"}"
 
-    fi
-fi
+        $COMMAND_NO_QUOTES
 
-npm install
-npm run start
+    done

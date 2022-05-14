@@ -1,5 +1,12 @@
 $ErrorActionPreference = 'Stop'
 
+$CurrentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+if (!($CurrentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))) {
+  Write-Warning 'Script is not running as Administrator'
+  Write-Warning 'Please rerun this script as Administrator.'
+  exit
+}
+
 if (!(Test-Path -Path "$($PSScriptRoot)\inputFiles\packages.config")) {
   Write-Warning 'packages.config not detected in inputFiles folder'
   Write-Warning 'Did you forget to make the packages.config?'
@@ -19,7 +26,6 @@ if (!$ChocoCheck) {
     exit
   }
 }
-
 
 if (Test-Path -Path "$($PSScriptRoot)\inputFiles\commandsToRun.json") {
   $CommandsToRun = Get-Content "$($PSScriptRoot)\inputFiles\commandsToRun.json" | ConvertFrom-Json -Depth 5

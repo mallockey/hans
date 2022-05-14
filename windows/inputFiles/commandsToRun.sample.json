@@ -1,4 +1,4 @@
 {
   "preCommandsToRun": ["whoami"],
-  "postCommandsToRun": ["start mongo"]
+  "postCommandsToRun": ["Start-Process notepad"]
 }
