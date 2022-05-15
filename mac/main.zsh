@@ -24,7 +24,7 @@ if [[ -z "${JQ_INSTALLED}" ]]; then
     source $HOME/.zshrc
 fi
 
-jq '.preCommandsToRun[]' ./inputFiles/commandsToRun.json |
+jq '.preCommandsToRun[]' configuration.json |
     while read -r COMMAND; do
 
         COMMAND_NO_QUOTES="${COMMAND%\"}"
@@ -34,8 +34,8 @@ jq '.preCommandsToRun[]' ./inputFiles/commandsToRun.json |
 
     done
 
-SOFTWARE_LIST="./inputFiles/softwareList.json"
-jq -c '.[]' <$SOFTWARE_LIST |
+SOFTWARE_LIST="configuration.json"
+jq -c '.softwareToInstall[]' <$SOFTWARE_LIST |
     while read -r SOFTWARE; do
 
         SOFTWARE_NAME=$(jq -r '.name' <<<"$SOFTWARE")
@@ -49,7 +49,7 @@ jq -c '.[]' <$SOFTWARE_LIST |
 
     done
 
-jq '.postCommandsToRun[]' ./inputFiles/commandsToRun.json |
+jq '.postCommandsToRun[]' configuration.json |
     while read -r COMMAND; do
 
         COMMAND_NO_QUOTES="${COMMAND%\"}"

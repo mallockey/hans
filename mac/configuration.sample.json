@@ -1,0 +1,16 @@
+{
+  "softwareToInstall" : [
+    {
+      "name": "mysql",
+      "version": null
+    },
+    {
+      "name": "steam",
+      "version": 6
+    }
+  ],
+  "preCommandsToRun": ["whoami", "ls"],
+  "postCommandsToRun": ["whoami"],
+  "gitRepos" : ["https://github.com/flutter/flutter.git", "https://github.com/getify/You-Dont-Know-JS"],
+  "gitRepoPath" : "c:\\users\\joshu\\desktop"
+}

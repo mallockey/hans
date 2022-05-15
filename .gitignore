@@ -3,3 +3,4 @@ dist
 commandsToRun.json
 softwareList.json
 packages.config
+configuration.json

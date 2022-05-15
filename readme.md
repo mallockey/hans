@@ -4,47 +4,56 @@ These sets of scripts are used to easily configure machines when working in a ne
 
 ## Running the script
 ### Windows
-1. Go to the windows folder and create two files, optional: `commandsToRun.json` and `packages.config` in the `inputFiles` folder.
-2. The `packages.config` file will be used to list the software you want to install based on the Chocolately
-A sample file can be found on [Chocolatelys site](https://docs.chocolatey.org/en-us/choco/commands/install#packages.config).
-3. Run `./windows/main.ps1` in an elevated PowerShell terminal.
+1. Go to the windows folder and create a file called `packages.config`.
+2. The `packages.config` file will be used to list the software and any configuration needed
+A sample for the software section can be found on [Chocolatelys site](https://docs.chocolatey.org/en-us/choco/commands/install#packages.config).
+3. Run `./Main.ps1` in an elevated PowerShell terminal.
 ### Mac
-1. Create two files in `inputFiles` folder. `commandsToRun.json` and `softwareList.json`. You can reference the shape of these files in the `sampleInputFiles` folder.
-2. List any software you want to install based on it's Brew configuration.
+1. Go to the mac folder and create a file called `configuration.json`
+2. List any software you want to install based on it's Brew configuration in `softwareToInstall` key and any other configuration needed.
 3. Run `.\main.zsh` from a terminal
 
 If you receive a a permission error, you will need to change permissions on the `main.sh` using `chmod`
 
-## Mac Input Files Sample
-
-`softwareList.json` file is used to list all the software to install :
-
-```json
-[
-  {
-    "name": "MySQL",
-    "version": null,
-  },
-  {
-    "name": "Steam",
-    "version": 20,
-  }
-]
-```
-
-And `commandsToRun.json` for any pre or post commands you'd want to run before/after installing the software :
+## Sample Mac File - configuration.json
 
 ```json
 {
-  "preCommandsToRun": ["whoami"],
-  "postCommandsToRun": ["start mongo"]
+  "softwareToInstall" : [
+    {
+      "name": "mysql",
+      "version": null
+    },
+    {
+      "name": "steam",
+      "version": 6
+    }
+  ],
+  "preCommandsToRun": ["whoami", "ls"],
+  "postCommandsToRun": ["whoami"],
+  "gitRepos" : ["https://github.com/flutter/flutter.git", "https://github.com/getify/You-Dont-Know-JS"],
+  "gitRepoPath" : "c:\\users\\joshu\\desktop"
 }
 ```
-## Brew Information
+## Sample Windows File - packages.config
 
-Checkout the software on Brew's site to get information like `version` `brewName` or `isCask`. [Steam for example](https://formulae.brew.sh/cask/steam)
-
-## Upcoming features
-
-- Add automatic creation of environment variables for commonly installed software
-- Add a `gitRepos` property for the script to automatically clone
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<packages>
+  <package id="steam-client" />
+  <package id="googlechrome" />
+  <package id="sublimetext3" />
+  <precommandstorun>
+    <command>whoami</command>
+    <command>Get-ChildItem</command>
+  </precommandstorun>
+  <postcommandstorun>
+   <command>ls</command>
+  </postcommandstorun>
+  <gitrepos>
+    <repopath>c:\users\joshu\desktop\</repopath>
+    <repo>https://github.com/flutter/flutter.git</repo>
+    <repo>https://github.com/getify/You-Dont-Know-JS</repo>
+  </gitrepos>
+</packages>
+```

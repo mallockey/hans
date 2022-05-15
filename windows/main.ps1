@@ -1,3 +1,11 @@
+param(
+  [Switch]$SkipGitInstall
+)
+
+function Set-EnvironmentVariables {
+  $env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine')
+}
+
 $ErrorActionPreference = 'Stop'
 
 $CurrentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -7,43 +15,64 @@ if (!($CurrentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Admini
   exit
 }
 
-if (!(Test-Path -Path "$($PSScriptRoot)\inputFiles\packages.config")) {
+if (!(Test-Path -Path "$($PSScriptRoot)\packages.config")) {
   Write-Warning 'packages.config not detected in inputFiles folder'
   Write-Warning 'Did you forget to make the packages.config?'
   exit
 }
 
-$ChocoCheck = choco --version
-
-if (!$ChocoCheck) {
-  try {
-    Set-ExecutionPolicy Bypass -Scope Process -Force
-    Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-  }
-  catch {
-    Write-Warning 'There was an error installing Chocolately'
-    Write-Warning $Error
-    exit
-  }
+try {
+  choco --version
+}
+catch {
+  Set-ExecutionPolicy Bypass -Scope Process -Force
+  Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+  Set-EnvironmentVariables
 }
 
-if (Test-Path -Path "$($PSScriptRoot)\inputFiles\commandsToRun.json") {
-  $CommandsToRun = Get-Content "$($PSScriptRoot)\inputFiles\commandsToRun.json" | ConvertFrom-Json -Depth 5
-}
+[XML]$ConfigurationFile = Get-Content "$($PSScriptRoot)\packages.config"
 
-# Any commands to run prior to software installation
-if ($CommandsToRun.preCommandsToRun.length -gt 0) {
-  $CommandsToRun.preCommandsToRun | ForEach-Object {
+$PreCommandsToRun = $ConfigurationFile.GetElementsByTagName('precommandstorun')
+
+if ($PreCommandsToRun -and $PreCommandsToRun.command.length -gt 0) {
+  $PreCommandsToRun.command | ForEach-Object {
     Invoke-Expression $_
   }
 }
 
 # Install all software from choco packages.config file
-choco install "$PSScriptRoot\inputFiles\packages.config" -y
+choco install "$PSScriptRoot\packages.config" -y
+Set-EnvironmentVariables
 
 # Any commands to run after software installation
-if ($CommandsToRun.preCommandsToRun.length -gt 0) {
-  $CommandsToRun.postCommandsToRun | ForEach-Object {
+$PostCommandsToRun = $ConfigurationFile.GetElementsByTagName('postcommandstorun')
+
+if ($PostCommandsToRun -and $PostCommandsToRun.command.length -gt 0) {
+  $PostCommandsToRun.command | ForEach-Object {
     Invoke-Expression $_
+  }
+}
+
+# Clone Git Repos
+if (!$SkipGitInstall) {
+
+  choco install git
+  Set-EnvironmentVariables
+
+  $GitRepos = $ConfigurationFile.GetElementsByTagName('gitrepos')
+  $GitFolder = $ConfigurationFile.GetElementsByTagName('gitrepos').repopath
+  
+  if ($GitRepos -and $GitRepos.repo.length -gt 0) {
+  
+    $GitRepos.repo | ForEach-Object {
+      if ($GitFolder) {
+        $RepoName = (Split-Path $_ -Leaf).Replace('.git' , '')
+        Invoke-Expression "git clone $_ $($GitFolder)\$($RepoName)"
+      }
+      else {
+        Invoke-Expression "git clone $_"
+      }
+    }
+  
   }
 }
