@@ -1,15 +1,19 @@
 # Onboarding Automation
 
-These sets of scripts are used to easily configure machines when working in a new environment. They use the package managers Brew and Chocolately for Mac and Windows respectively. The idea is to make a generic onboarding script that you should only need to change the `json` files in the input folder.
+These sets of scripts are used to easily configure machines when working in a new environment. They use the package managers Brew and Chocolately for Mac and Windows respectively. The idea is to make a generic onboarding script that you only need a single file from environment to environment.
 
 ## Running the script
+
 ### Windows
-1. Go to the windows folder and create a file called `packages.config`.
+
+1. Create a file called `packages.config` in the windows folder.
 2. The `packages.config` file will be used to list the software and any configuration needed
-A sample for the software section can be found on [Chocolatelys site](https://docs.chocolatey.org/en-us/choco/commands/install#packages.config).
+   A sample for the software section can be found on [Chocolatelys site](https://docs.chocolatey.org/en-us/choco/commands/install#packages.config).
 3. Run `./Main.ps1` in an elevated PowerShell terminal.
+
 ### Mac
-1. Go to the mac folder and create a file called `configuration.json`
+
+1. Create a file called `configuration.json` in the mac folder.
 2. List any software you want to install based on it's Brew configuration in `softwareToInstall` key and any other configuration needed.
 3. Run `.\main.zsh` from a terminal
 
@@ -19,7 +23,7 @@ If you receive a a permission error, you will need to change permissions on the 
 
 ```json
 {
-  "softwareToInstall" : [
+  "softwareToInstall": [
     {
       "name": "mysql",
       "version": null
@@ -31,10 +35,14 @@ If you receive a a permission error, you will need to change permissions on the 
   ],
   "preCommandsToRun": ["whoami", "ls"],
   "postCommandsToRun": ["whoami"],
-  "gitRepos" : ["https://github.com/flutter/flutter.git", "https://github.com/getify/You-Dont-Know-JS"],
-  "gitRepoPath" : "c:\\users\\joshu\\desktop"
+  "gitRepos": [
+    "https://github.com/flutter/flutter.git",
+    "https://github.com/getify/You-Dont-Know-JS"
+  ],
+  "gitRepoPath": "c:\\users\\joshu\\desktop"
 }
 ```
+
 ## Sample Windows File - packages.config
 
 ```xml
@@ -57,3 +65,7 @@ If you receive a a permission error, you will need to change permissions on the 
   </gitrepos>
 </packages>
 ```
+
+## Additional Info
+
+For Mac users, this script assumes you will be using `zsh`.

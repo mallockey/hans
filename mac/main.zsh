@@ -49,6 +49,7 @@ jq -c '.softwareToInstall[]' <$SOFTWARE_LIST |
 
     done
 
+source $HOME/.zshrc
 jq '.postCommandsToRun[]' configuration.json |
     while read -r COMMAND; do
 
@@ -56,5 +57,28 @@ jq '.postCommandsToRun[]' configuration.json |
         COMMAND_NO_QUOTES="${COMMAND_NO_QUOTES#\"}"
 
         $COMMAND_NO_QUOTES
+
+    done
+
+brew install git
+source $HOME/.zshrc
+
+GIT_PATH=$(jq -r '.gitRepoPath' configuration.json)
+
+jq '.gitRepos[]' configuration.json |
+    while read -r GIT_REPO; do
+
+        GIT_REPO_NO_QUOTES="${GIT_REPO%\"}"
+        GIT_REPO_NO_QUOTES="${GIT_REPO_NO_QUOTES#\"}"
+
+        LEAF=$(basename "$GIT_REPO_NO_QUOTES")
+        REPO_NAME=$(sed 's/.git//g' <<<"$LEAF")
+
+        if [[ $GIT_PATH == 'null' ]]; then
+            git clone $GIT_REPO_NO_QUOTES
+        else
+            PATH_TO_CLONE_REPO=${GIT_PATH}/${REPO_NAME}
+            git clone $GIT_REPO_NO_QUOTES $PATH_TO_CLONE_REPO
+        fi
 
     done

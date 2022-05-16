@@ -1,5 +1,5 @@
 {
-  "softwareToInstall" : [
+  "softwareToInstall": [
     {
       "name": "mysql",
       "version": null
@@ -11,6 +11,9 @@
   ],
   "preCommandsToRun": ["whoami", "ls"],
   "postCommandsToRun": ["whoami"],
-  "gitRepos" : ["https://github.com/flutter/flutter.git", "https://github.com/getify/You-Dont-Know-JS"],
-  "gitRepoPath" : "c:\\users\\joshu\\desktop"
+  "gitRepos": [
+    "https://github.com/flutter/flutter.git",
+    "https://github.com/getify/You-Dont-Know-JS"
+  ],
+  "gitRepoPath": "/Users/joshmelo/Desktop"
 }
