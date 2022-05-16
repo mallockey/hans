@@ -76,3 +76,18 @@ if (!$SkipGitInstall) {
   
   }
 }
+
+try {
+  $Quiet = code --version
+}
+catch {
+  exit
+}
+
+$VSCodeExtensions = $ConfigurationFile.GetElementsByTagName('vscodeextensions')
+
+if ($VSCodeExtensions -and $VSCodeExtensions.extension.length -gt 0) {
+  $VSCodeExtensions.extension | ForEach-Object {
+    code --install-extension $_
+  }
+}
