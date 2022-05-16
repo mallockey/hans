@@ -39,7 +39,8 @@ If you receive a a permission error, you will need to change permissions on the 
     "https://github.com/flutter/flutter.git",
     "https://github.com/getify/You-Dont-Know-JS"
   ],
-  "gitRepoPath": "c:\\users\\joshu\\desktop"
+  "gitRepoPath": "c:\\users\\joshu\\desktop",
+  "vsCodeExtensions": ["ms-vscode.cpptools"]
 }
 ```
 

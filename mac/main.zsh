@@ -13,13 +13,13 @@ function checkInstalled() {
 }
 
 BREW_INSTALLED=$(checkInstalled "brew")
-if echo $BREW_INSTALLED | grep -q "brew not found"; then
+if [[ "${BREW_INSTALLED}" == 'false' ]]; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     source $HOME/.zshrc
 fi
 
 JQ_INSTALLED=$(checkInstalled "jq")
-if [[ -z "${JQ_INSTALLED}" ]]; then
+if [[ "${JQ_INSTALLED}" == 'false' ]]; then
     brew install jq
     source $HOME/.zshrc
 fi
@@ -80,5 +80,21 @@ jq '.gitRepos[]' configuration.json |
             PATH_TO_CLONE_REPO=${GIT_PATH}/${REPO_NAME}
             git clone $GIT_REPO_NO_QUOTES $PATH_TO_CLONE_REPO
         fi
+
+    done
+
+VSCODE_INSTALLED=$(checkInstalled "code")
+
+if [[ "${VSCODE_INSTALLED}" == 'false' ]]; then
+    exit
+fi
+
+jq '.vsCodeExtensions[]' configuration.json |
+    while read -r EXTENSION; do
+
+        EXTENSION_NO_QUOTES="${EXTENSION%\"}"
+        EXTENSION_NO_QUOTES="${EXTENSION_NO_QUOTES#\"}"
+
+        code --install-extension $EXTENSION_NO_QUOTES
 
     done

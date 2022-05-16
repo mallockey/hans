@@ -15,5 +15,6 @@
     "https://github.com/flutter/flutter.git",
     "https://github.com/getify/You-Dont-Know-JS"
   ],
-  "gitRepoPath": "/Users/joshmelo/Desktop"
+  "gitRepoPath": "/Users/joshmelo/Desktop",
+  "vsCodeExtensions": ["ms-vscode.cpptools"]
 }
