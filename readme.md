@@ -63,6 +63,9 @@ If you receive a a permission error, you will need to change permissions on the 
     <repo>https://github.com/flutter/flutter.git</repo>
     <repo>https://github.com/getify/You-Dont-Know-JS</repo>
   </gitrepos>
+  <vscodeextensions>
+    <extension>ms-vscode.cpptools</extension>
+  </vscodeextensions>
 </packages>
 ```
 
