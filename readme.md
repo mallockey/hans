@@ -1,6 +1,6 @@
-# Alfred
+# Hans
 
-Alfred is a set of scripts used to help devs easily onboard onto new projects. It use's the package managers Brew and Chocolately for Mac and Windows respectively. The idea is to make a generic onboarding script that you only need to change a single file from environment to environment.
+Hans is a set of scripts used to help devs easily onboard onto new projects. It use's the package managers Brew and Chocolately for Mac and Windows respectively. The idea is to make a generic onboarding script that you only need to change a single file from environment to environment.
 
 ## Running the script
 
