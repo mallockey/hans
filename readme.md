@@ -1,6 +1,6 @@
 # Onboarding Automation
 
-These sets of scripts are used to easily configure machines when working in a new environment. They use the package managers Brew and Chocolately for Mac and Windows respectively. The idea is to make a generic onboarding script that you only need a single file from environment to environment.
+These sets of scripts are used to easily configure machines when working in a new environment. They use the package managers Brew and Chocolately for Mac and Windows respectively. The idea is to make a generic onboarding script that you only need to change a single file from environment to environment.
 
 ## Running the script
 
